@@ -15,7 +15,7 @@ while True:
     # inser_link=insert_all_link_new()
     # for insert in inser_link:+++++++++++
     #     link_insert = insert[1]
-
+    #abc123
     all_news = select_all_rows_data('news')
     for row in all_news:
         #if row < all_news:
