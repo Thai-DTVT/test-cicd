@@ -11,7 +11,7 @@ import collect_data_from_web
 
 
 while True:
-    insert_all_link_new()
+    #insert_all_link_new()
     # inser_link=insert_all_link_new()
     # for insert in inser_link:+++++++++++
     #     link_insert = insert[1]
@@ -31,7 +31,7 @@ while True:
                                 title = '' if not all_infor.get('title') else all_infor.get('title'), 
                                 detail_address = '' if not all_infor.get('address') else all_infor.get('address'), 
                                 title_address = '' if not all_infor.get('address') else  all_infor.get('address'),
-                            price = 'Thỏa thuận' if not all_infor.get('price') else all_infor.get('price').replace(',','.'),
+                                price = 'Thỏa thuận' if not all_infor.get('price') else all_infor.get('price').replace(',','.'),
                                 unit_price = '' if not all_infor.get('unit_price') else all_infor.get('unit_price'),
                                 bedroom = '' if not all_infor.get('bedroom') else int(all_infor.get('bedroom')),
                                 toilet = '' if not all_infor.get('toilet') else int(all_infor.get('toilet')),
