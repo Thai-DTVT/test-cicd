@@ -11,7 +11,7 @@ import collect_data_from_web
 
 
 while True:
-    #insert_all_link_new()
+    insert_all_link_new()
     # inser_link=insert_all_link_new()
     # for insert in inser_link:+++++++++++
     #     link_insert = insert[1]

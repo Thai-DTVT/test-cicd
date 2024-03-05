@@ -8,6 +8,8 @@ from db import infor_id
 import db
 import json
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 app = FastAPI() # gọi constructor và gán vào biến app
 #app = FastAPI()
@@ -34,35 +36,44 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get("/api") # giống flask, khai báo phương thức get và url
-async def api(): # do dùng ASGI nên ở đây thêm async, nếu bên thứ 3 không hỗ trợ thì bỏ async đi
+@app.get("/apis") 
+async def ifor(): 
     #data= create_user()
     #print(data)
+    a={"id":1,
+         "href":"Welcome to Page ABC"   
+            }
+    return a
+@app.get("/api") 
+async def api(): 
+    data= infor_id()
+    #print(data)
+    return data
 
-    return {"message":"Welcome to Page ABC"}
 @app.get("/home")
-async def home(): # do dùng ASGI nên ở đây thêm async, nếu bên thứ 3 không hỗ trợ thì bỏ async đi
+async def home(): 
     data= create_user()
     #print(data)
 
     return data
 
-@app.get("/ids") # giống flask, khai báo phương thức get và url
+@app.get("/ids") # khai báo phương thức get và url
 async def ids(): # do dùng ASGI nên ở đây thêm async, nếu bên thứ 3 không hỗ trợ thì bỏ async đi
     data1= create_id()
     #print(data)
     return data1  
-@app.get("/infor") # giống flask, khai báo phương thức get và url
-async def aifor(): # do dùng ASGI nên ở đây thêm async, nếu bên thứ 3 không hỗ trợ thì bỏ async đi
-    data1= infor_id()
-    #print(data)
-    return data1  
+ 
         
 @app.post("/item")
-async def submit(item:MyItem): # item_id:str, do dùng ASGI nên ở đây thêm async, nếu bên thứ 3 không hỗ trợ thì bỏ async đi
+async def submit(item:MyItem): 
     print("voi thong tin",item)
     return {"item": item.name}
 
+@app.get("/items/")
+async def update_item():
+    data= create_user()
+    json_data = jsonable_encoder(data)
+    return JSONResponse(content=json_data)
 # @app.post("/users/")
 # async def add_user(name: str, age: int):
 #     user_id = create_user(name, age)

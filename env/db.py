@@ -7,7 +7,9 @@
 import mysql.connector
 from dotenv import load_dotenv
 import json
-
+import datetime
+from json import JSONEncoder
+import bson
 # Load environment variables
 load_dotenv()
 
@@ -24,18 +26,13 @@ def connect():
         password=MYSQL_PASSWORD,
         database=MYSQL_DB
     )
-# def initialize_db():
-#     conn = connect()
-#     cursor = conn.cursor()
-#     query = """
-#     CREATE TABLE IF NOT EXISTS users (
-#         id INT AUTO_INCREMENT PRIMARY KEY,
-#         name VARCHAR(255),
-#         age INT
-#     )
-#     """
-#     cursor.execute(query)
-#     conn.close()
+
+class DateTimeEncoder(JSONEncoder):
+        #Override the default method
+        def default(self, obj):
+            if isinstance(obj, (datetime.date, datetime.datetime)):
+                return obj.isoformat()
+
 conn = connect()
 # def create_user():
   
@@ -52,7 +49,7 @@ def create_user():
         db_query = cursor.execute("SELECT * FROM provinces where id = 1")
         row = cursor.fetchone()
         if row:
-            return (row)
+            return json.dumps(row)
         else:
             return "Nothing found \n SQL Query: " 
     finally:
@@ -63,22 +60,34 @@ def create_id():
         db_query = cursor1.execute("SELECT * FROM provinces where id = 2")
         row1 = cursor1.fetchone()
         if row1:
-            return (row1)
+            return json.dumps(row1,cls=DateTimeEncoder)
         else:
             return "Nothing found \n SQL Query: " 
     finally:
         cursor1.close()
 def infor_id():
     try:
-        cursor2 = conn.cursor(dictionary=True)
-        db_query = cursor2.execute("SELECT * FROM infor_news ORDER BY id DESC LIMIT 1")
-        row1 = cursor2.fetchone()
-        if row1:
-            return json(row1)
+          # Assume you have a function to connect to the database
+        cursor = conn.cursor(dictionary=True)
+        db_query = cursor.execute("SELECT * FROM infor_news ORDER BY id DESC LIMIT 10")
+        rows = cursor.fetchall()
+        if rows:
+            return rows
         else:
-            return "Nothing found \n SQL Query: " 
+            return "No records found."
     finally:
-        cursor2.close()
+        cursor.close()
+# def infor_id():
+#     try:
+#         cursor = conn.cursor(dictionary=True)
+#         db_query = cursor.execute("SELECT * FROM infor_news ") #order by id DESC 10
+#         row1 = cursor.fetchone()
+#         if row1:
+#             return (row1)
+#         else:
+#             return "Nothing found \n SQL Query: " 
+#     finally:
+#         cursor.close()
 # def search_db_tickId_act(ticketId):
 #     try:
 #         cursor = db.cursor(dictionary=True)
